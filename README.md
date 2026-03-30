@@ -60,8 +60,9 @@ All in `[PATH_TO_DOCS]/`:
 | **system-overview.md** | Architecture, key concepts, competitive landscape | When new understanding emerges |
 | **personas.md** | Personas, GTM, market context | When strategy info changes |
 | **workstreams.md** | Current state of all active lines of work | When workstream status changes |
-| **[board]-structure.md** | Board structure, tags, milestones, conventions | Rarely |
+| **board-structure.md** | Task board structure, tags, milestones, API reference | Rarely |
 | **decisions.md** | Decision log | When key decisions are made |
+| **weekly-update-format.md** | Template for weekly stakeholder updates | Rarely |
 | **milestones.md** | Milestone framework (PoC → Production) | When milestones evolve |
 | **commits.md** | Commit conventions | Rarely |
 | **integrations/** | Per-service integration reference docs | When integrations change |
@@ -96,40 +97,9 @@ openssl enc -aes-256-cbc -salt -pbkdf2 -in .env -out .env.enc
 
 Both commands prompt for the passphrase.
 
-## Task Board Quick Reference
+## Task Board & Source Control
 
-<!-- Fill in with your project management tool's API details. -->
-
-```
-API base:     [URL]
-Auth header:  [HEADER_NAME]: [TOKEN]
-List/Board:   [ID]
-User ID:      [ID]
-```
-
-**Custom fields:**
-<!-- e.g., Milestone dropdown, Sprint, Priority -->
-
-| Field | ID | Options |
-|-------|----|---------|
-| [Field name] | [field_id] | [option: id, option: id, ...] |
-
-**Common API patterns:**
-```
-Create task:    POST /task
-Update task:    PUT /task/{id}
-Add tag:        POST /task/{id}/tag/{tag}
-Set field:      POST /task/{id}/field/{field_id}  {"value": "option_id"}
-Create subtask: POST /task  {"parent": "parent_id"}
-```
-
-## Source Control Quick Reference
-
-```
-Org/Group:  [NAME]
-User:       [USERNAME]
-Repos:      [list repos]
-```
+See `board-structure.md` for full task board setup (statuses, tags, milestones, API reference, git linking) and `integrations/github.md` for source control operations.
 
 ## Resuming After Context Loss
 
@@ -150,13 +120,16 @@ Repos:      [list repos]
 - [ ] Create local docs directory and initialize git repo
 - [ ] Set up `.gitignore` and `.env` with integration tokens
 - [ ] Encrypt `.env` and commit `.env.enc`
-- [ ] Create initial files: copilot-guide.md, actionables.md, thread.md, system-overview.md
-- [ ] Set up `integrations/` with a doc per service (use `_template.md`)
-- [ ] Set up `skills/` with operational prompts (pr-review, pr-comment)
+- [ ] Create initial files: actionables.md, thread.md, system-overview.md, personas.md
+- [ ] Customize this file (README.md / copilot-guide) with project name and integration table
+- [ ] Fill in `board-structure.md` with task board API details, IDs, statuses, tags
+- [ ] Fill in `decisions.md` with initial tooling/process decisions
+- [ ] Fill in `workstreams.md` with current lines of work
+- [ ] Set up `integrations/` with a doc per service (use `_template.md` or copy from included templates)
 - [ ] Customize `commits.md` with project conventions
 - [ ] Review `milestones.md` and adapt milestone names/criteria to your project
+- [ ] Customize `weekly-update-format.md` with your posting channel and project name
 - [ ] Connect to task board: verify API access, list IDs, user IDs
 - [ ] Do first check-in to verify all integrations work
 - [ ] Capture team members in actionables.md
-- [ ] Document board structure (statuses, tags, milestones)
 - [ ] Set up recurring reminders (meetings, check-ins)
