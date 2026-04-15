@@ -12,29 +12,24 @@ The PM thread does not write code. It plans, tracks, and reviews. When implement
 4. **PM thread updates the progress file.** Only the PM thread (via the user) updates progress. The IC thread never touches these files.
 5. **PM thread creates follow-up prompts if needed.** This creates a chain of provenance: prompt → progress → follow-up prompt → progress → ...
 
-### File structure
+### File naming convention
 
-Each prompt gets a numbered directory:
+Flat files. No directories. Format: `things-to-do-[sequence]-{prompt or progress}.md`
 
 ```
 prompts/
-  README.md                    # this file
-  001-example-task/
-    prompt.md                  # the brief for the IC thread
-    progress.md                # status and outcomes (updated by PM only)
-  002-another-task/
-    prompt.md
-    progress.md
-  003-followup-to-001/
-    prompt.md                  # references 001, continues the work
-    progress.md
+  README.md
+  things-to-do-1-prompt.md       # first prompt in the chain
+  things-to-do-1-progress.md     # progress tracking for prompt 1
+  things-to-do-2-prompt.md       # follow-up prompt
+  things-to-do-2-progress.md     # progress tracking for prompt 2
 ```
 
-### Naming convention
+- `things-to-do` — kebab-case description of the work (stays the same across the chain)
+- `[sequence]` — incrementing number for follow-ups in the same chain
+- `prompt` or `progress` — the file type
 
-- Directory: `NNN-short-description/` (zero-padded 3-digit number + kebab-case description)
-- `prompt.md` — the brief. Written by the PM thread. Contains everything the IC thread needs.
-- `progress.md` — status tracking. Created by the PM thread when the prompt is created. Updated ONLY when the user reports back from the IC thread.
+Follow-ups in the same chain keep the same `things-to-do` prefix. This makes it easy to see the full history of a piece of work.
 
 ### What goes in a prompt
 
@@ -46,6 +41,7 @@ A good prompt includes:
 - **Deliverables:** specific files, scripts, or outputs expected
 - **References:** paths to relevant files the IC thread should read first
 - **Success criteria:** how to know the work is done
+- **Verify before pushing:** exact test commands to run locally before opening a PR
 
 ### What goes in a progress file
 
@@ -67,7 +63,7 @@ A good prompt includes:
 ### Pruning
 
 Prompts are pruned every 2 weeks. On the prune date:
-- **Done:** delete the directory. The work is captured in the codebase, not in the prompt.
+- **Done:** delete both files. The work is captured in the codebase, not in the prompt.
 - **In progress:** extend the prune date by 2 weeks. If extended more than twice, reassess whether the work is still relevant.
 - **Not started:** delete. If it hasn't been picked up in 2 weeks, it's either not important or needs to be rewritten with fresh context.
 - **Blocked:** escalate. Figure out what's blocking it and either unblock or kill it.
@@ -77,4 +73,4 @@ Prompts are pruned every 2 weeks. On the prune date:
 - **Provenance.** Every piece of implementation work has a written brief and a documented outcome.
 - **Separation of concerns.** The PM thread focuses on planning and tracking. IC threads focus on execution.
 - **Replayability.** If an IC thread loses context or needs to restart, the prompt file has everything it needs.
-- **Follow-up chains.** When work needs iteration, the PM thread creates a new prompt that references the previous one. The chain tells the full story.
+- **Follow-up chains.** When work needs iteration, the PM thread creates a new prompt with the next sequence number. The chain tells the full story.
