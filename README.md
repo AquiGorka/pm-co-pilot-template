@@ -78,6 +78,7 @@ Reusable prompts for specific operational tasks, stored in `skills/`:
 |-------|---------|
 | **skills/pr-review.md** | Structured code review — finds problems, no opinions |
 | **skills/pr-comment.md** | How to post review findings as inline GitHub PR comments |
+| **skills/open-pr-checklist.md** | Pre-flight checklist before opening a PR (tests, git hygiene, metadata, docs) |
 
 <!-- Add skills as workflows emerge. Coding thread prompts (briefs for implementation threads) can also live here. -->
 
