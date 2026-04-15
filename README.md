@@ -115,6 +115,53 @@ See `board-structure.md` for full task board setup (statuses, tags, milestones, 
 - **Local docs**: Context, strategy, architecture, people notes, GTM, competitive intel, research findings. Source of truth for "why we're doing what we're doing."
 - **Both must stay in sync.** Update local docs when tasks are created/completed. Update the board when research produces actionable tasks.
 
+## Updating from the Template
+
+Projects forked from this template evolve independently. When the template gets new files, patterns, or integrations, specific projects need to manually pull in what's relevant.
+
+### How to check for updates
+
+```bash
+# Add the template as a remote (one-time)
+git remote add template [TEMPLATE_REPO_URL]
+
+# Fetch the latest template changes
+git fetch template main
+
+# See what changed since you last synced
+git log template/main --oneline --since="2 weeks ago"
+
+# Diff a specific file against the template version
+git diff HEAD template/main -- integrations/_template.md
+```
+
+### How to pull in updates
+
+**Do NOT merge or rebase the template into your project.** Your project has customized most files (README, actionables, workstreams, etc.) and a merge would create conflicts everywhere.
+
+Instead, review changes manually and cherry-pick what's useful:
+
+1. Run `git fetch template main` to get the latest template state
+2. Review the template's recent commits: `git log template/main --oneline -10`
+3. For each commit that looks relevant, inspect the diff: `git show template/main:<filepath>`
+4. Copy the parts that apply to your project. Adapt to your project-specific context.
+
+### What typically gets pulled in
+
+- **New integration templates** (`integrations/*.md`) — copy the generic template, then customize with your project's auth details and endpoints
+- **New skills** (`skills/*.md`) — usually usable as-is
+- **New workflow patterns** (`prompts/README.md`, methodology updates) — review and adopt if they fit
+- **README updates** (new sections, improved checklists) — cherry-pick relevant sections
+
+### What typically does NOT get pulled in
+
+- **Files you've already customized** (README, actionables, workstreams, etc.) — your project version is the source of truth, the template version is irrelevant once customized
+- **Integration docs you don't use** — the template has many, your project only needs the ones you've set up
+
+### When to check
+
+Add a recurring reminder to check for template updates. Monthly is a good cadence. Or check when you're about to set up a new integration and want to see if the template has a reference doc for it.
+
 ## Setup Checklist (for new projects)
 
 - [ ] Create local docs directory and initialize git repo
