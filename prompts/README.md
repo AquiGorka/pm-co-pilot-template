@@ -53,6 +53,8 @@ A good prompt includes:
 # Progress — [short description]
 
 ## Status: [not started | in progress | done | blocked]
+## Created: YYYY-MM-DD
+## Prune after: YYYY-MM-DD (2 weeks from creation)
 
 ## Log
 
@@ -61,6 +63,14 @@ A good prompt includes:
 | YYYY-MM-DD | Prompt created. Sent to IC thread. |
 | YYYY-MM-DD | IC thread reported: [summary]. [Link to follow-up if any]. |
 ```
+
+### Pruning
+
+Prompts are pruned every 2 weeks. On the prune date:
+- **Done:** delete the directory. The work is captured in the codebase, not in the prompt.
+- **In progress:** extend the prune date by 2 weeks. If extended more than twice, reassess whether the work is still relevant.
+- **Not started:** delete. If it hasn't been picked up in 2 weeks, it's either not important or needs to be rewritten with fresh context.
+- **Blocked:** escalate. Figure out what's blocking it and either unblock or kill it.
 
 ### Why this matters
 
