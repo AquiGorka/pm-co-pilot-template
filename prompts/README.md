@@ -31,6 +31,34 @@ prompts/
 
 Follow-ups in the same chain keep the same `things-to-do` prefix. This makes it easy to see the full history of a piece of work.
 
+### Working directory rule
+
+IC threads NEVER work in the original repo. Every prompt must instruct the IC thread to:
+
+1. **Clone the repo to `/tmp/`** at the start (e.g., `git clone <repo> /tmp/<repo-name>-<task>`)
+2. **Do all work in the `/tmp/` clone**
+3. **Push from the `/tmp/` clone** when done (or open a PR)
+4. **Do NOT delete the `/tmp/` clone themselves** — cleanup is handled by a separate final prompt
+
+This protects the original working directory from half-finished work, broken state, or accidental file changes.
+
+Every prompt chain should end with a **cleanup prompt** that removes all `/tmp/` clones used during the chain. The PM thread creates this as the final prompt in the sequence (e.g., `things-to-do-3-prompt.md` if the chain had 2 work prompts).
+
+Cleanup prompt template:
+
+```markdown
+# Prompt: Cleanup /tmp repos
+
+## Goal
+Remove all temporary clones created during this prompt chain.
+
+## Steps
+rm -rf /tmp/<repo-name>-<task>
+
+## Success criteria
+The /tmp directories no longer exist.
+```
+
 ### What goes in a prompt
 
 A good prompt includes:
@@ -38,6 +66,7 @@ A good prompt includes:
 - **Goal:** what the IC thread should accomplish
 - **Context:** what already exists, where to find it, what decisions have been made
 - **Constraints:** language, framework, architecture choices, things to avoid
+- **Working directory:** the `/tmp/` clone path to use (always `/tmp/`, never the original repo)
 - **Deliverables:** specific files, scripts, or outputs expected
 - **References:** paths to relevant files the IC thread should read first
 - **Success criteria:** how to know the work is done
