@@ -38,15 +38,22 @@ When the user asks "what's on my plate?" (or similar), pull and render (tomorrow
 6. **Reminders** — check actionables against current date
 7. **On Mondays** — remind to prune completed items older than a week from local docs
 
-## Key Rules
+## Rules
 
-<!-- Adapt these to the user's preferences. These are learned from feedback, not assumed. -->
+The durable rules learned from working with the user live in version-controlled directories at the repo root, auto-loaded via `CLAUDE.md`:
 
-- **Do NOT mark tasks complete without asking.** User stays in control.
-- **Always validate before taking task board actions** unless told otherwise.
-- **Weekly updates**: concise, no padding, no LLM tells. User reviews before posting.
+| Directory | What it holds |
+|-----------|---------------|
+| `feedback/` | Behavior rules. How Claude should act in this repo. |
+| `project/` | Long-lived project facts. People, motivations, naming conventions. |
+| `reference/` | Pointers to information in external systems. |
+| `user/` | The user's profile, family, working preferences, business entity. |
 
-<!-- Add project-specific rules as they emerge from user feedback. -->
+`CLAUDE.md` instructs Claude to read every file in those four directories on session start. Each directory has a `README.md` documenting scope and the line between "this belongs here" and "this belongs elsewhere."
+
+**Adding a rule:** drop a new file in the matching directory. No `CLAUDE.md` edit needed. The file format is YAML frontmatter (`name`, `description`, `type`) plus a body with a `**Why:**` line and a `**How to apply:**` line.
+
+The auto-memory directory at `~/.claude/projects/<repo-id>/memory/` is reserved for ephemeral, in-flight notes that have not yet hardened into a rule. Promote to the repo when something hardens.
 
 ## Local Files
 
@@ -54,19 +61,26 @@ All in `[PATH_TO_DOCS]/`:
 
 | File / Directory | Purpose | Update frequency |
 |------------------|---------|-----------------|
-| **copilot-guide.md** | This file. How the PM thread works. | When process changes |
-| **actionables.md** | Active priorities, reminders, people, pending actions | Every session |
-| **thread.md** | Running log of key outcomes per date | Every session |
-| **system-overview.md** | Architecture, key concepts, competitive landscape | When new understanding emerges |
-| **personas.md** | Personas, GTM, market context | When strategy info changes |
-| **workstreams.md** | Current state of all active lines of work | When workstream status changes |
-| **board-structure.md** | Task board structure, tags, milestones, API reference | Rarely |
-| **decisions.md** | Decision log | When key decisions are made |
-| **weekly-update-format.md** | Template for weekly stakeholder updates | Rarely |
-| **milestones.md** | Milestone framework (PoC → Production) | When milestones evolve |
-| **commits.md** | Commit conventions | Rarely |
-| **integrations/** | Per-service integration reference docs | When integrations change |
-| **skills/** | Operational prompts (PR review, PR comments, etc.) | When workflows change |
+| **README.md** | This file. How the PM thread works. | When process changes |
+| **CLAUDE.md** | Auto-loaded session bootstrap. Directs Claude to read the rules directories. | Rarely |
+| **feedback/** | Per-rule files: how Claude should behave. | When a new rule emerges |
+| **project/** | Long-lived project facts (people, motivations, naming). | When new initiatives or collaborators appear |
+| **reference/** | Pointers to external systems. | When a new external system enters the workflow |
+| **user/** | User's profile, family, working preferences, business entity. | Rarely |
+| **actionables.md** | Active priorities, reminders, people, pending actions. | Every session |
+| **thread.md** | Running log of key outcomes per date. | Every session |
+| **workstreams.md** | Current state of all active lines of work. | When workstream status changes |
+| **board-structure.md** | Task board structure, tags, milestones, API reference. | Rarely |
+| **decisions.md** | Decision log. | When key decisions are made |
+| **weekly-update-format.md** | Template for weekly stakeholder updates. | Rarely |
+| **milestones.md** | Milestone framework (PoC to Production). | When milestones evolve |
+| **commits.md** | Commit conventions. | Rarely |
+| **metrics.md** | KPI definitions (throughput, quality, time-to-deliver) computed from `prompts/`. | When the schema evolves |
+| **prompts/** | PM-to-IC delegation chain. Each work item has a `*-prompt.md` brief and a `*-progress.md` tracker. See `prompts/README.md`. | Every session |
+| **integrations/** | Per-service integration reference docs. | When integrations change |
+| **skills/** | Operational prompts (PR review, PR comments, etc.). | When workflows change |
+| **workflows/** | Recurring workflows (e.g. monthly email reviews). | When a new recurring task is formalized |
+| **daily/** | Per-day daily logs (food, sleep, mood, exercise, work focus, log entries). | Daily |
 
 <!-- Add/remove files as needed for the project. -->
 
@@ -104,11 +118,12 @@ See `board-structure.md` for full task board setup (statuses, tags, milestones, 
 
 ## Resuming After Context Loss
 
-1. Read this file first (copilot-guide.md).
-2. Read `actionables.md` for current priorities, reminders, and people.
-3. Read `thread.md` for recent session outcomes.
-4. Check task board state (in progress / in review).
-5. Ask the user what they're working on.
+1. `CLAUDE.md` will already be loaded by Claude Code. Read every file under `feedback/`, `project/`, `reference/`, and `user/` so the rules and facts are in context.
+2. Read this file (README.md).
+3. Read `actionables.md` for current priorities, reminders, and people.
+4. Read `thread.md` for recent session outcomes.
+5. Check the task board state (in progress / in review).
+6. Ask the user what they're working on.
 
 ## What We Track Where
 
@@ -168,8 +183,10 @@ Add a recurring reminder to check for template updates. Monthly is a good cadenc
 - [ ] Create local docs directory and initialize git repo
 - [ ] Set up `.gitignore` and `.env` with integration tokens
 - [ ] Encrypt `.env` and commit `.env.enc`
-- [ ] Create initial files: actionables.md, thread.md, system-overview.md, personas.md
-- [ ] Customize this file (README.md / copilot-guide) with project name and integration table
+- [ ] Customize `README.md` and `CLAUDE.md` with project name and any project-specific bootstrap text
+- [ ] Seed `user/` with the user's profile and business entity (or copy from another repo if shared)
+- [ ] Drop a starter `feedback/` rule or two if any are obvious upfront; the rest accrete from real interactions
+- [ ] Create initial files: actionables.md, thread.md
 - [ ] Fill in `board-structure.md` with task board API details, IDs, statuses, tags
 - [ ] Fill in `decisions.md` with initial tooling/process decisions
 - [ ] Fill in `workstreams.md` with current lines of work
