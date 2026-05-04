@@ -45,13 +45,21 @@ time_to_deliver = average(Done - Started) across { prompts where Status == "done
 
 **Notes.** Per-prompt average, not per-initiative. Calendar days, not active dev days. Blocked time counts. If a prompt takes 14 calendar days because it was blocked on a third-party dependency for 12 of them, that is 14 days of delivery time from the customer's perspective.
 
+## When to use `done` vs `blocked`
+
+`blocked` is for prompts that genuinely cannot progress AND have unresolved IC work. It is not for prompts whose IC work is finished and that are now waiting on an external response (an email reply, a platform review, a vendor approval, a regulatory body, a third-party committee).
+
+When the IC's work on a prompt is finished and the only thing remaining is the async response, **mark the prompt `done`**. When the response lands and triggers new work, open a new prompt in the chain (`<topic>-N+1`), typed `refinement` if extending scope or `fixup` if correcting a defect.
+
+This convention keeps `time_to_deliver` honest. A prompt that sits in `blocked` for weeks while waiting on a third party would otherwise drag the average upward without reflecting any actual development cycle.
+
 ## What's not measured (yet)
 
 The three indicators above are first-order signals. They will not catch:
 
 - **Spec quality.** A clean prompt that produces a clean delivery looks identical to a vague prompt that the IC happened to interpret well. The fixup rate captures part of this but not all.
 - **Surface area.** A 10-line CSS tweak and a 600-line BLG document both count as 1 prompt. We are accepting this for now; bucket size normalization is a v2 problem.
-- **Blocker-attributable delays.** If time-to-deliver creeps up because of an external dependency (e.g., a third-party platform's review queue, a vendor approval, a regulatory body), the metric punishes you for it. A future schema field could distinguish active dev days from blocked days; treat as a refinement.
+- **Blocker-attributable delays.** If time-to-deliver creeps up because of an external dependency (e.g., a third-party platform's review queue, a vendor approval, a regulatory body), the metric punishes you for it. A future schema field could distinguish active dev days from blocked days; treat as a refinement. The async-blocker convention above partially mitigates this by closing prompts as `done` once the IC's work is finished.
 
 ## How to refresh the numbers
 
