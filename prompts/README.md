@@ -78,6 +78,9 @@ A good prompt includes:
 # Progress — [short description]
 
 ## Status: [not started | in progress | done | blocked]
+## Type: [original | refinement | fixup]
+## Started: YYYY-MM-DD
+## Done: YYYY-MM-DD   (set only when status moves to done)
 ## Created: YYYY-MM-DD
 ## Prune after: YYYY-MM-DD (2 weeks from creation)
 
@@ -88,6 +91,25 @@ A good prompt includes:
 | YYYY-MM-DD | Prompt created. Sent to IC thread. |
 | YYYY-MM-DD | IC thread reported: [summary]. [Link to follow-up if any]. |
 ```
+
+#### Type: what goes here
+
+Every prompt is exactly one of:
+
+- **`original`**: first prompt in a chain (sequence `-1`). Kicks off a new initiative.
+- **`refinement`**: extends scope, adds a new capability, adds polish, or pursues a follow-on opportunity discovered during the original work. Not driven by a defect.
+- **`fixup`**: corrects something the previous prompt's deliverable got wrong, missed, or broke. Driven by a defect.
+
+**Mixed prompts: fixup wins.** If a follow-up does both correct a defect and extend scope, classify as `fixup`. Do not split into two prompts post-hoc; just label the combined work as `fixup` and capture the extension in the same chain.
+
+The type field is what makes the KPI metrics computable. See `metrics.md` at the repo root.
+
+#### Started / Done: what counts as a date
+
+- **Started**: the calendar date the prompt was sent to the IC thread. Set when the prompt file is created.
+- **Done**: the calendar date the IC thread reported back with completed work. Set when status moves to `done`. Leave blank for any other status.
+
+Calendar time, not active dev time. Blocked time counts. Wall-clock delivery is what these dates measure.
 
 ### Pruning
 
