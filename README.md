@@ -68,7 +68,6 @@ All in `[PATH_TO_DOCS]/`:
 | **reference/** | Pointers to external systems. | When a new external system enters the workflow |
 | **user/** | User's profile, family, working preferences, business entity. | Rarely |
 | **actionables.md** | Active priorities, reminders, people, pending actions. | Every session |
-| **thread.md** | Running log of key outcomes per date. | Every session |
 | **workstreams.md** | Current state of all active lines of work. | When workstream status changes |
 | **board-structure.md** | Task board structure, tags, milestones, API reference. | Rarely |
 | **decisions.md** | Decision log. | When key decisions are made |
@@ -121,9 +120,8 @@ See `board-structure.md` for full task board setup (statuses, tags, milestones, 
 1. `CLAUDE.md` will already be loaded by Claude Code. Read every file under `feedback/`, `project/`, `reference/`, and `user/` so the rules and facts are in context.
 2. Read this file (README.md).
 3. Read `actionables.md` for current priorities, reminders, and people.
-4. Read `thread.md` for recent session outcomes.
-5. Check the task board state (in progress / in review).
-6. Ask the user what they're working on.
+4. Check the task board state (in progress / in review).
+5. Ask the user what they're working on.
 
 ## What We Track Where
 
@@ -145,7 +143,7 @@ Recommended cadence: monthly, or when you are about to set up a new integration 
 - [ ] Customize `README.md` and `CLAUDE.md` with project name and any project-specific bootstrap text
 - [ ] Seed `user/` with the user's profile and business entity (or copy from another repo if shared)
 - [ ] Drop a starter `feedback/` rule or two if any are obvious upfront; the rest accrete from real interactions
-- [ ] Create initial files: actionables.md, thread.md
+- [ ] Create initial files: actionables.md
 - [ ] Fill in `board-structure.md` with task board API details, IDs, statuses, tags
 - [ ] Fill in `decisions.md` with initial tooling/process decisions
 - [ ] Fill in `workstreams.md` with current lines of work

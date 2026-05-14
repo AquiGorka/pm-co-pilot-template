@@ -47,7 +47,7 @@ git diff --name-status main template/main
 | `integrations/_template.md` | **template** | Overwrite. |
 | `commits.md`, `weekly-update-format.md`, `board-structure.md`, `milestones.md` | **template** | Overwrite unless this project has explicit customisation documented in commit history; in that case prefer local and surface the diff. |
 | `README.md` | hybrid | Never auto-overwrite. The structure is template-owned, the content is project-customised. Review the diff and cherry-pick structural improvements (new sections, reordering) without disturbing project-specific content. |
-| `actionables.md`, `thread.md`, `workstreams.md`, `decisions.md` | **local** | Never overwrite. The template version is a placeholder. |
+| `actionables.md`, `workstreams.md`, `decisions.md` | **local** | Never overwrite. The template version is a placeholder. |
 | `daily/*` | **local** | Never overwrite. |
 | `prompts/<topic>-<N>-prompt.md`, `prompts/<topic>-<N>-progress.md` | **local** | Never overwrite. These are project work artifacts. |
 | `feedback/*.md` (rule files, not the README), `project/*.md`, `reference/*.md`, `user/*.md` | **local** | Never overwrite. If the template introduces a new rule file the project does not have, surface it as a recommendation. |
